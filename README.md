@@ -26,11 +26,9 @@ ref: https://github.com/pandax381/microps#features
 
 ## Environment
 
-- Hardware
-  - OS: macOS Sonoma 14.1
-  - CPU: Apple M1 Max (arm64)
-- Software
-  - Go 1.21.5 darwin/arm64
+- OS: macOS Sonoma 14.1
+- CPU: Apple M1 Max (arm64)
+- Go 1.21.5 darwin/arm64
 
 ## Run
 
