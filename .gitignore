@@ -32,3 +32,6 @@ config.yaml
 
 # Go workspace file
 go.work
+
+# for goreleaser
+dist/
