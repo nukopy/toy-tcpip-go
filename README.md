@@ -1,7 +1,5 @@
 # toy-tcpip-go
 
-An implementation of a small TCP/IP protocol protocol stack in Go
-
 [![GitHub Releases badge][github-releases-badge]][github-releases-url]
 [![MIT license badge][mit-badge]][mit-url]
 [![GitHub Actions workflow CI badge][github-actions-ci-badge]][github-actions-ci-url]
