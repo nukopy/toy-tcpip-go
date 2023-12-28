@@ -1,0 +1,76 @@
+name: "CI"
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "scripts/**"
+      - "docs/**"
+      - "README.md"
+      - ".gitignore"
+      - ".gitattributes"
+  pull_request:
+    types: [opened, synchronize]
+    branches:
+      - main
+    paths-ignore:
+      - "scripts/**"
+      - "docs/**"
+      - "README.md"
+      - ".gitignore"
+      - ".gitattributes"
+
+jobs:
+  format:
+    name: Format
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v4
+        with:
+          go-version-file: ./go.mod
+      - run: make format-no-overwrite
+
+  lint:
+    name: Lint
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v4
+        with:
+          go-version-file: ./go.mod
+      # ref: https://github.com/golangci/golangci-lint-action#how-to-use
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: latest
+          args: "--timeout 5m"
+
+  test:
+    name: Test
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    needs: [format, lint]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v4
+        with:
+          go-version-file: ./go.mod
+      - name: Test
+        run: |
+          make test-with-coverage
+
+      # - name: Upload coverage to Codecov
+      #   uses: codecov/codecov-action@v1
+      #   with:
+      #     token: ${{ secrets.CODECOV_TOKEN }}
+      #     file: ./${{ env.WORK_DIR }}/profile.out
